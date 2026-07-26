@@ -2,6 +2,8 @@
 
 [![Hackathon](https://img.shields.io/badge/hackathon-Kaggle-brightgreen)](https://www.kaggle.com/competitions)
 
+[View on GitHub](https://github.com/BLD933/NutriVision)
+
 NutriVision is an AI-powered nutrition assistant that analyzes food photos, provides personalized recommendations, and helps manage meal planning for health conditions.
 
 ## Features
