@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { AuthContext, AnalysisContext } from "../App";
 import { analyseMeal } from "../api/client";
-import { Upload, Camera, X, Loader2, AlertTriangle, Sparkles, MessageCircle, Info, Link } from "lucide-react";
+import { Upload, Camera, X, Loader2, AlertTriangle, Sparkles, MessageCircle, Info, Link, FileText } from "lucide-react";
 
 const NUTRIENT_META = {
   calories: { label: "Calories", unit: "kcal", limit: 2000, color: "bg-gold-500" },
@@ -36,6 +36,7 @@ export default function Analyse() {
   const { analysisResult, setAnalysisResult } = useContext(AnalysisContext);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [dragover, setDragover] = useState(false);
   const [error, setError] = useState(null);
@@ -54,7 +55,7 @@ export default function Analyse() {
     if (!file || !userToken) return;
     setLoading(true); setError(null);
     try {
-      const result = await analyseMeal(file, userToken);
+      const result = await analyseMeal(file, userToken, notes);
       setAnalysisResult(result);
       const history = JSON.parse(localStorage.getItem("nv_analysis_history") || "[]");
       history.unshift({ ...result, id: Date.now(), date: new Date().toISOString() });
@@ -98,6 +99,16 @@ export default function Analyse() {
                 <p className="text-xs text-gray-300 mt-3">JPG, PNG, WEBP</p>
               </>
             )}
+          </div>
+          <div className="mt-4">
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-1">
+              <FileText className="w-4 h-4 text-gold-500" /> Notes (optionnel)
+            </label>
+            <textarea value={notes} onChange={(e) => setNotes(e.target.value)}
+              placeholder="Aliments non visibles, quantités estimées, méthode de cuisson, accompagnements..."
+              className="w-full border border-gray-200 rounded-xl p-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-gold-400 resize-none"
+              rows={2} maxLength={500} />
+            <p className="text-xs text-gray-400 mt-1">Ajoutez des informations que l'analyse visuelle ne peut pas capturer — ingrédients manquants, poids approximatif, détails de préparation.</p>
           </div>
           <button onClick={runAnalysis} disabled={!file || loading} className="btn-primary w-full mt-4">
             {loading ? <><Loader2 className="w-5 h-5 animate-spin" /> Analyse en cours...</> : <><Sparkles className="w-5 h-5" /> Analyser le repas</>}

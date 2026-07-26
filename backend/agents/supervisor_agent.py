@@ -12,7 +12,7 @@ class SupervisorAgent:
         self.nutrition = nutrition_agent or NutritionAgent()
         self.memory = memory_agent or MemoryAgent()
 
-    def process(self, image_bytes: bytes, user_id: str) -> dict:
+    def process(self, image_bytes: bytes, user_id: str, notes: str = "") -> dict:
         profil_snap = db.collection("users").document(user_id).get()
         if not profil_snap.exists:
             db.collection("users").document(user_id).set({
@@ -44,8 +44,12 @@ class SupervisorAgent:
         if pathologie and pathologie != "none":
             patho_context = f"Pathologie du patient : {pathologie}. "
 
+        notes_context = ""
+        if notes:
+            notes_context = f"Note du patient : {notes}. "
+
         question = (
-            f"Analyse ce repas en 4 sections. {patho_context}"
+            f"Analyse ce repas en 4 sections. {patho_context}{notes_context}"
             f"Aliments détectés : {food_names}. "
             f"Calories totales : {nutrition_result.get('totals', {}).get('calories', '?')} kcal. "
             f"Score santé : {nutrition_result.get('score', '?')}/100.\n"
@@ -64,7 +68,7 @@ class SupervisorAgent:
             },
             profil=profil,
             rag_docs=rag_docs,
-            num_predict=512,
+            num_predict=2048,
         )
 
         meal_data = {

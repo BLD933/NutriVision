@@ -44,7 +44,9 @@ def analyse():
     image_file = request.files["image"]
     image_bytes = image_file.read()
 
-    result = _get_supervisor().process(image_bytes, user_id)
+    notes = request.form.get("notes", "").strip()
+
+    result = _get_supervisor().process(image_bytes, user_id, notes=notes)
 
     if "error" in result:
         return jsonify(result), 400

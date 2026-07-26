@@ -30,9 +30,10 @@ export async function healthCheck() {
   return request("/health");
 }
 
-export async function analyseMeal(imageFile, idToken) {
+export async function analyseMeal(imageFile, idToken, notes = "") {
   const formData = new FormData();
   formData.append("image", imageFile);
+  if (notes.trim()) formData.append("notes", notes.trim());
 
   const res = await fetch(`${API_BASE}/analyse`, {
     method: "POST",
