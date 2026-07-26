@@ -6,6 +6,37 @@
 
 NutriVision is an AI-powered nutrition assistant that analyzes food photos, provides personalized recommendations, and helps manage meal planning for health conditions.
 
+## Project Structure
+
+```
+nutrivision/
+├── backend/                  # Flask API (port 5000)
+│   ├── agents/               # AI agents (Gemma, Vision, Supervisor, etc.)
+│   ├── models/               # YOLO food detection models
+│   ├── nutrition/            # Nutrition logic & recommendations
+│   ├── rag/                  # ChromaDB vector store
+│   ├── routes/               # API endpoints (analyse, chat, clients, recipes, meal-plan)
+│   ├── app.py                # Flask entry point
+│   ├── config.py             # Firebase initialization
+│   └── requirements.txt
+├── frontend/                 # React + Vite app (port 5173)
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/            # Page views (Analyse, ChatBot, Clients, Recettes, MealPlan, Dashboard)
+│   │   ├── lib/              # API client, auth helpers
+│   │   └── ...
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js        # Proxies /api → backend
+├── scripts/                  # Utility scripts
+│   └── kaggle_mfood_yolo.py  # Download MFOOD YOLO model
+├── project_description/      # Test images and docs
+├── docs/                     # Additional documentation
+├── .env.example              # Environment variable template
+├── LICENSE                   # MIT License
+└── README.md
+```
+
 ## Features
 
 - **Food Detection**: MFOOD YOLO model detects 70 Moroccan food dishes
@@ -31,13 +62,13 @@ git clone https://github.com/your-org/nutrivision.git
 cd nutrivision
 
 # Backend
-cd agent
+cd backend
 source venv/bin/activate
 pip install -r requirements.txt
 python app.py  # Runs on port 5000
 
 # Frontend
-cd ../ilyas2/agent/agent/frontend-react
+cd ../frontend
 npm install
 npm run dev  # Runs on port 5173
 ```
@@ -54,13 +85,13 @@ npm run dev  # Runs on port 5173
 
 ## Environment Variables
 
-### Backend (`agent/.env`)
+### Backend (`backend/.env`)
 ```
 FIREBASE_SERVICE_ACCOUNT_KEY=<json-key>
 GEMINI_API_KEY=<optional-for-cloud-gemma>
 ```
 
-### Frontend (`ilyas2/agent/agent/frontend-react/.env`)
+### Frontend (`frontend/.env`)
 ```
 VITE_FIREBASE_API_KEY=<key>
 VITE_FIREBASE_AUTH_DOMAIN=<domain>
@@ -74,11 +105,12 @@ VITE_FIREBASE_APP_ID=<id>
 
 ```bash
 # Run tests
-cd agent
+cd backend
 pytest tests/
 
 # Lint
-npm run lint  # Frontend
+cd frontend
+npm run lint
 ```
 
 ## License
