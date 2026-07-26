@@ -6,6 +6,12 @@
 
 NutriVision is an AI-powered nutrition assistant that analyzes food photos, provides personalized recommendations, and helps manage meal planning for health conditions.
 
+## Demo
+
+[![NutriVision Demo](demo/nutrivision-demo.mp4)](demo/nutrivision-demo.mp4)
+
+Watch the full walkthrough: [demo/nutrivision-demo.mp4](demo/nutrivision-demo.mp4)
+
 ## Project Structure
 
 ```
