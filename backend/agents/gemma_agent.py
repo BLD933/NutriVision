@@ -3,7 +3,7 @@ import re
 import threading
 
 CLOUD_MODEL = "gemma-4-26b-a4b-it"
-LOCAL_MODEL = "gemma4:4b"
+LOCAL_MODEL = "gemma4:e4b"
 
 SYSTEM = ("Tu es NutriVision, un assistant nutrition marocain spécialisé en régime méditerranéen. "
           "Réponds en français, directement et sans planification interne. "
